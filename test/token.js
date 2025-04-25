@@ -1,5 +1,5 @@
-const { expect } = require('chai');
-const { ethers } = require('hardhat');
+const { expect } = require("chai");
+const { ethers } = require("hardhat");
 
 describe("Token", function () {
     let Token;
@@ -43,20 +43,19 @@ describe("Token", function () {
             ).to.be.revertedWith("Insufficient balance");
         });
 
-        it("Should update balance after tranfer" , async function () {
-            const initialOwnerbalance = await hardhatToken.balanceOf(owner.address)
+        it("Should update balance after transfer", async function () {
+            const initialOwnerBalance = await hardhatToken.balanceOf(owner.address);
 
-            const amount1 = ethers.parseUnits("5" , 0)
-            const amount2 = ethers.parseUnits("10" , 0)
+            const amount1 = ethers.parseUnits("5" , 0);
+            const amount2 = ethers.parseUnits("10" , 0);
 
-            await hardhatToken.connect(owner).transfer(add1.address , amount1);
-            await hardhatToken.connect(owner).transfer(add2.address ,amount2);
+            await hardhatToken.connect(owner).transfer(add1.address, amount1);
+            await hardhatToken.connect(owner).transfer(add2.address, amount2);
+
             const finalOwnerBalance = await hardhatToken.balanceOf(owner.address);
+            const totalTransferred = amount1 + amount2;
 
-            const totalTransferred = amount1 + amount2
-
-            expect(finalOwnerBalance).to.equal(initialOwnerbalance - totalTransferred)
-
-        })
+            expect(finalOwnerBalance).to.equal(initialOwnerBalance - totalTransferred);
+        });
     });
 });
