@@ -11,7 +11,7 @@ contract Token {
 
     constructor() {
         owner = msg.sender;
-        balance[owner] = totalSupply; // ✅ assign initial supply to the owner
+        balance[owner] = totalSupply; // Assign initial supply to the owner
     }
 
     function mint(uint amount) public {
@@ -27,8 +27,15 @@ contract Token {
     }
 
     function transfer(address to, uint amount) external {
-        require(balance[msg.sender] >= amount, "Insufficient balance"); // ✅ fixed
+        require(balance[msg.sender] >= amount, "Insufficient balance");
         balance[msg.sender] -= amount;
+        balance[to] += amount;
+    }
+
+    function transferFromSelf(address from, address to, uint amount) public {
+        require(msg.sender == from, "You can only transfer from your own account");
+        require(balance[from] >= amount, "Not enough balance to transfer");
+        balance[from] -= amount;
         balance[to] += amount;
     }
 
