@@ -42,5 +42,21 @@ describe("Token", function () {
                 hardhatToken.connect(add1).transfer(add2.address, 10)
             ).to.be.revertedWith("Insufficient balance");
         });
+
+        it("Should update balance after tranfer" , async function () {
+            const initialOwnerbalance = await hardhatToken.balanceOf(owner.address)
+
+            const amount1 = ethers.parseUnits("5" , 0)
+            const amount2 = ethers.parseUnits("10" , 0)
+
+            await hardhatToken.connect(owner).transfer(add1.address , amount1);
+            await hardhatToken.connect(owner).transfer(add2.address ,amount2);
+            const finalOwnerBalance = await hardhatToken.balanceOf(owner.address);
+
+            const totalTransferred = amount1 + amount2
+
+            expect(finalOwnerBalance).to.equal(initialOwnerbalance - totalTransferred)
+
+        })
     });
 });
