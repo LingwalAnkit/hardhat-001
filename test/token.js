@@ -36,5 +36,11 @@ describe("Token", function () {
             const add2Balance = await hardhatToken.balanceOf(add2.address);
             expect(add2Balance).to.equal(5);
         });
+
+        it("Should fail if user tries to transfer more than balance", async function () {
+            await expect(
+                hardhatToken.connect(add1).transfer(add2.address, 10)
+            ).to.be.revertedWith("Insufficient balance");
+        });
     });
 });
